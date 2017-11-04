@@ -86,8 +86,9 @@ function appendPre(message) {
  * Print the names and majors of students in a sample spreadsheet:
  * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  */
+var data = {};
 function getData() {
-  var data = localStorage.getItem('gdata');
+  data = localStorage.getItem('gdata');
   if(!data) {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: '1WIdnoOnyQkRFGfwXYySOR-nK5pB6KqwN6aKapOe3vRA',
