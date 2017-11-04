@@ -53,7 +53,8 @@ function find(fromLanguage, toLanguage, word) {
     var closeQuestionSymbol = word.indexOf("?");
     var openExclamationSymbol = word.indexOf("¡");
     var closeExclamationSymbol = word.indexOf("!");
-    var matchedWord = word.toLowerCase().match(/\b(\w+)\b/g);
+    var regex = new XRegExp("^\\p{L}*$")
+    var matchedWord = regex.exec(word.toLowerCase());
     if(matchedWord && matchedWord.length > 0) {
       matchedWord = matchedWord[0];
       var io = data[fromLanguage].indexOf(matchedWord);
