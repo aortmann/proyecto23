@@ -77,8 +77,7 @@
                   <div class="control">
                     <div class="select">
                       <select v-model="toLanguage">
-                        <option style="display:none" value="none">?</option>
-                        <option v-for="language in languages" v-bind:value="language">{{ language | capitalize }}</option>
+                        <option v-for="language in filteredLanguages" v-bind:value="language">{{ language | capitalize }}</option>
                       </select>
                     </div>
                   </div>
@@ -86,7 +85,8 @@
               </p>
               <div class="field">
                 <div class="control">
-                  <textarea v-model="toText" class="textarea is-warning" type="text" placeholder="..." readonly id="toTextAreaElement"></textarea>
+                  <div class="content" v-html="toText"></div>
+                  <!--textarea class="textarea is-warning" type="text" placeholder="..." readonly id="toTextAreaElement"></textarea-->
                 </div>
               </div>
             </div>
@@ -95,7 +95,7 @@
       </div>
     </section>
 
-    <script src="autosize.min.js"></script>
+    <script src="autosize.js"></script>
     <script type="text/javascript" src="common.js"></script>
     <!--script src="https://unpkg.com/vue"></script-->
     <script src="https://vuejs.org/js/vue.min.js"></script>

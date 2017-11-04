@@ -4,7 +4,7 @@ function initFrontPage(data) {
     el: '#proyecto23',
     data: {
       fromLanguage: languages[0],
-      toLanguage: 'none',
+      toLanguage: null,
       languages: languages,
       fromText: ''
     },
@@ -23,6 +23,21 @@ function initFrontPage(data) {
           }
           return newText.sentenceCase();
         } return null;
+      },
+      filteredLanguages: function() {
+        var that = this;
+        var filtered = languages.filter(function(item) {
+          return item !== that.fromLanguage
+        });
+        this.toLanguage = filtered[0];
+        return filtered;
+        /*var toLanguageList = [];
+        for(var i in languages) {
+          if(languages[i].capitalize() != this.fromLanguage){
+              toLanguageList.push(languages[i]);
+          }
+        }
+        return toLanguageList;*/
       }
     }
   })
@@ -30,7 +45,7 @@ function initFrontPage(data) {
 };
 
 function find(fromLanguage, toLanguage, word) {
-  if(toLanguage != 'none') {
+  if(toLanguage) {
     //my brain is broken because of this
     var dotSymbol = word.indexOf(".");
     var commaSymbol = word.indexOf(",");
@@ -57,5 +72,5 @@ function find(fromLanguage, toLanguage, word) {
       }
     }
   }
-  return word;
+  return '<span style="background-color: #BBDEFB;cursor:pointer">' + word + '</span>';
 }

@@ -52,6 +52,7 @@ function updateSigninStatus(isSignedIn) {
   } else {
     authorizeButton.classList.remove('is-hidden');
     signoutButton.classList.add('is-hidden');
+    localStorage.clear();
   }
 }
 

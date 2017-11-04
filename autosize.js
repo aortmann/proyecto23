@@ -63,7 +63,7 @@
 
     function startAutoSize() {
         var ta = document.getElementById('fromTextAreaElement');
-        var ta2 = document.getElementById('toTextAreaElement');
+        //var ta2 = document.getElementById('toTextAreaElement');
         var heightOffset = null;
         var clientWidth = ta.clientWidth;
         var cachedHeight = null;
@@ -135,12 +135,12 @@
             if (ta.scrollHeight === 0) {
                 // If the scrollHeight is 0, then the element probably has display:none or is detached from the DOM.
                 ta.style.height = originalHeight;
-                ta2.style.height = originalHeight;
+                //ta2.style.height = originalHeight;
                 return;
             }
 
             ta.style.height = endHeight + 'px';
-            ta2.style.height = endHeight + 'px';
+            //ta2.style.height = endHeight + 'px';
 
             // used to check if an update is actually necessary on window.resize
             clientWidth = ta.clientWidth;
