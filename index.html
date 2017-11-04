@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Proyecto 23</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/index.html">
+          Proyecto 23
+        </a>
+      </div>
+
+      <div class="navbar-menu is-active">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <a id="authorize-button" class="button is-primary is-inverted is-small is-hidden">
+                  <span class="icon">
+                    <i class="fa fa-sign-in"></i>
+                  </span>
+                  <span>Authorize</span>
+                </a>
+                <a id="signout-button" class="button is-danger is-inverted is-small is-hidden">
+                  <span class="icon">
+                    <i class="fa fa-sign-out"></i>
+                  </span>
+                  <span>Sign Out</span>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!--pre id="content"></pre-->
+    <section class="section">
+      <div class="container" id="proyecto23" v-cloak>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent">
+            <div class="tile is-child box">
+              <p>
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select v-model="fromLanguage">
+                        <option v-for="language in languages" v-bind:value="language">{{ language | capitalize }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </p>
+              <div class="field">
+                <div class="control">
+                  <textarea v-model="fromText" class="textarea is-info" type="text" placeholder="..." id="fromTextAreaElement"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tile is-parent">
+            <div class="tile is-child box">
+              <p>
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select v-model="toLanguage">
+                        <option style="display:none" value="none">?</option>
+                        <option v-for="language in languages" v-bind:value="language">{{ language | capitalize }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </p>
+              <div class="field">
+                <div class="control">
+                  <textarea v-model="toText" class="textarea is-warning" type="text" placeholder="..." readonly id="toTextAreaElement"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="autosize.min.js"></script>
+    <script type="text/javascript" src="common.js"></script>
+    <!--script src="https://unpkg.com/vue"></script-->
+    <script src="https://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="gauth.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+  </script>
+  </body>
+</html>
