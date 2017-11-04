@@ -92,9 +92,41 @@
             </div>
           </div>
         </div>
+
+
+        <div class="modal ">is-active
+          <div class="modal-background"></div>
+          <div class="modal-content">
+            <div class="box">
+              <div class="field">
+                <div class="control">
+                  <div class="select">
+                    <select v-model="fromLanguage">
+                      <option v-for="language in languages" v-bind:value="language">{{ language | capitalize }}</option>
+                    </select>
+                  </div>
+                  <div class="select">
+                    <select v-model="toLanguage">
+                      <option v-for="language in filteredLanguages" v-bind:value="language">{{ language | capitalize }}</option>
+                    </select>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+
+            </div>
+          </div>
+          <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+
+
       </div>
     </section>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xregexp/3.2.0/xregexp-all.min.js"></script>
     <script src="autosize.js"></script>
     <script type="text/javascript" src="common.js"></script>
     <!--script src="https://unpkg.com/vue"></script-->
