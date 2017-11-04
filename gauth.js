@@ -11,6 +11,7 @@ var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
 
 var authorizeButton = document.getElementById('authorize-button');
 var signoutButton = document.getElementById('signout-button');
+var refreshButton = document.getElementById('refresh-button');
 
 /**
  *  On load, called to load the auth2 library and API client library.
@@ -37,6 +38,7 @@ function initClient() {
     updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
     authorizeButton.onclick = handleAuthClick;
     signoutButton.onclick = handleSignoutClick;
+    refreshButton.onclick = handleRefreshClick;
   });
 }
 
@@ -48,11 +50,12 @@ function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     authorizeButton.classList.add('is-hidden');
     signoutButton.classList.remove('is-hidden');
+    refreshButton.classList.remove('is-hidden');
     getData();
   } else {
     authorizeButton.classList.remove('is-hidden');
     signoutButton.classList.add('is-hidden');
-    localStorage.clear();
+    refreshButton.classList.add('is-hidden');
   }
 }
 
@@ -60,6 +63,7 @@ function updateSigninStatus(isSignedIn) {
  *  Sign in the user upon button click.
  */
 function handleAuthClick(event) {
+  localStorage.clear();
   gapi.auth2.getAuthInstance().signIn();
 }
 
@@ -67,7 +71,14 @@ function handleAuthClick(event) {
  *  Sign out the user upon button click.
  */
 function handleSignoutClick(event) {
+  localStorage.clear();
   gapi.auth2.getAuthInstance().signOut();
+  location.reload();
+}
+
+function handleRefreshClick(event) {
+  localStorage.clear();
+  getData();
 }
 
 /**
@@ -82,12 +93,9 @@ function appendPre(message) {
   pre.appendChild(textContent);
 }
 
-/**
- * Print the names and majors of students in a sample spreadsheet:
- * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- */
 var data = {};
 function getData() {
+  toggleRefreshButton();
   data = localStorage.getItem('gdata');
   if(!data) {
     gapi.client.sheets.spreadsheets.values.get({
@@ -111,6 +119,7 @@ function getData() {
         }
         localStorage.setItem('gdata', JSON.stringify(data));
         initFrontPage(data);
+        toggleRefreshButton();
       } else {
         appendPre('No data found.');
       }
@@ -120,5 +129,10 @@ function getData() {
   } else {
     data = JSON.parse(data);
     initFrontPage(data);
+    toggleRefreshButton();
   }
+}
+
+function toggleRefreshButton() {
+  refreshButton.getElementsByTagName('i')[0].classList.toggle('fa-spin');
 }
