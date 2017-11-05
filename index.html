@@ -8,9 +8,12 @@
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
+    <style type="text/css">
       [v-cloak] {
         display: none;
+      }
+      .cursor-pointer {
+        cursor: pointer;
       }
     </style>
   </head>
@@ -90,44 +93,67 @@
               </p>
               <div class="field">
                 <div class="control">
-                  <div class="content" v-html="toText"></div>
-                  <!--textarea class="textarea is-warning" type="text" placeholder="..." readonly id="toTextAreaElement"></textarea-->
+                  <div class="content">
+                    <span v-for="(wordObj, index) in toText"
+                      v-bind:class="{ 'has-text-info cursor-pointer': !wordObj.found && wordObj.foundInBase, 'has-text-danger': !wordObj.found && !wordObj.foundInBase }"
+                      v-on:click="{ !wordObj.found && wordObj.foundInBase ? openCorrectionModal(wordObj.word, index) : null}">
+                      {{ wordObj.word }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-
-        <div class="modal ">is-active
+        <div class="modal" id='correction-modal'>
           <div class="modal-background"></div>
-          <div class="modal-content">
+          <div class="modal-content container is-fluid">
+            <button class="modal-close is-large"></button>
             <div class="box">
-              <div class="field">
+              <div class="field has-addons">
                 <div class="control">
                   <div class="select">
                     <select v-model="fromLanguage">
                       <option v-for="language in languages" v-bind:value="language">{{ language | capitalize }}</option>
                     </select>
                   </div>
+                </div>
+                <p class="control">
+                  <a class="button is-static">
+                    {{ baseWord }}
+                  </a>
+                </p>
+                <p class="control">
+                  <a class="button is-static">
+                    <span class="icon">
+                      <i class="fa fa-long-arrow-right"></i>
+                    </span>
+                  </a>
+                </p>
+                <div class="control">
                   <div class="select">
                     <select v-model="toLanguage">
                       <option v-for="language in filteredLanguages" v-bind:value="language">{{ language | capitalize }}</option>
                     </select>
                   </div>
-
                 </div>
+                <p class="control">
+                  <input class="input" type="text" placeholder="..." v-model="wordToFix">
+                </p>
+                <p class="control">
+                  <a id="authorize-button" class="button is-info is-inverted">
+                    <span class="icon">
+                      <i class="fa fa-floppy-o"></i>
+                    </span>
+                    <span>Save</span>
+                  </a>
+                </p>
               </div>
-
-
-
-
-            </div>
+            </section>
           </div>
           <button class="modal-close is-large" aria-label="close"></button>
         </div>
-
-
       </div>
     </section>
 
