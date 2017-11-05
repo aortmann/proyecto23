@@ -7,7 +7,7 @@ var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 
 var authorizeButton = document.getElementById('authorize-button');
 var signoutButton = document.getElementById('signout-button');
@@ -118,8 +118,9 @@ function getData() {
           //appendPre(row[0] + ', ' + row[4]);
         }
         localStorage.setItem('gdata', JSON.stringify(data));
-        initFrontPage(data);
+        //initFrontPage(data);
         toggleRefreshButton();
+        location.reload();
       } else {
         appendPre('No data found.');
       }
@@ -131,6 +132,25 @@ function getData() {
     initFrontPage(data);
     toggleRefreshButton();
   }
+}
+
+function writeData(range, data) {
+  var params = {
+       //"range":"Sheet1!A2:A3",
+       spreadsheetId: '1WIdnoOnyQkRFGfwXYySOR-nK5pB6KqwN6aKapOe3vRA',
+       "range": range,
+       "majorDimension": "ROWS",
+       "valueInputOption": "USER_ENTERED",
+       "values": [
+         [data]
+      ]
+  };
+  var request = gapi.client.sheets.spreadsheets.values.update(params)
+    .then(function(response) {
+      console.log(response);
+    }, function(response) {
+      appendPre('Error: ' + response.result.error.message);
+    });
 }
 
 function toggleRefreshButton() {

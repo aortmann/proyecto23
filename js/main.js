@@ -1,6 +1,6 @@
 function initFrontPage(data) {
   languages = Object.keys(data);
-
+  var alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
   var app = new Vue({
     el: '#proyecto23',
     data: {
@@ -14,6 +14,16 @@ function initFrontPage(data) {
         this.baseWord = sanitize(this.fromText.split(' ')[index]);
         this.wordToFix = sanitize(word);
         document.getElementById('correction-modal').classList.add('is-active');
+      },
+      saveNewWord: function() {
+        position = findPosition(this.fromLanguage, this.baseWord);
+        if(position) {
+          var cell = alphabet[Object.keys(data).indexOf(this.toLanguage)] + position.y;
+          var range = 'Vocabulario!' + cell + ':' + cell;
+          writeData(range, sanitize(this.wordToFix).toLowerCase());
+          document.getElementById('correction-modal').classList.remove('is-active');
+        }
+
       }
     },
     filters: {
@@ -29,7 +39,7 @@ function initFrontPage(data) {
           for(var i in splittedText) {
             newText.push(find(this.fromLanguage, this.toLanguage, splittedText[i]));
           };
-          var cased = newText.map(function(obj){return obj.word}).join('').sentenceCase().split(' ');
+          var cased = newText.map(function(obj){return obj.word}).join('|').sentenceCase().split('|');
           for(var i in newText) {
             newText[i].word = cased[i] + ' ';
           }
@@ -93,6 +103,20 @@ function find(fromLanguage, toLanguage, word) {
     }
   }
   return response;
+}
+
+function findPosition(fromLanguage, word) {
+  word = sanitize(word);
+  var regex = new XRegExp("^\\p{L}*$")
+  var matchedWord = regex.exec(word.toLowerCase());
+  if(matchedWord && matchedWord.length > 0) {
+    matchedWord = matchedWord[0];
+    var io = data[fromLanguage].indexOf(matchedWord);
+    if(io > -1) {
+      return {y: io+2}; //2 = 1 for title, 1 because this start to count from 0
+    }
+  }
+  return null;
 }
 
 function sanitize(word) {
