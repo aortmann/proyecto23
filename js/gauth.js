@@ -96,6 +96,8 @@ function appendPre(message) {
 var data = {};
 function getData() {
   toggleRefreshButton();
+  forceRefresh = localStorage.getItem('forceRefresh');
+  if(forceRefresh) localStorage.clear();
   data = localStorage.getItem('gdata');
   if(!data) {
     gapi.client.sheets.spreadsheets.values.get({
@@ -147,7 +149,7 @@ function writeData(range, data) {
   };
   var request = gapi.client.sheets.spreadsheets.values.update(params)
     .then(function(response) {
-      console.log(response);
+      //console.log(response);
     }, function(response) {
       appendPre('Error: ' + response.result.error.message);
     });

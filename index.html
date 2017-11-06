@@ -95,8 +95,8 @@
                 <div class="control">
                   <div class="content">
                     <span v-for="(wordObj, index) in toText"
-                      v-bind:class="{ 'has-text-info cursor-pointer': !wordObj.found && wordObj.foundInBase, 'has-text-danger': !wordObj.found && !wordObj.foundInBase }"
-                      v-on:click="{ !wordObj.found && wordObj.foundInBase ? openCorrectionModal(wordObj.word, index) : null}">
+                      v-bind:class="{ 'has-text-info cursor-pointer': !wordObj.found && wordObj.foundInBase, 'has-text-danger cursor-pointer': !wordObj.found && !wordObj.foundInBase }"
+                      v-on:click="{ !wordObj.found || !wordObj.foundInBase ? openCorrectionModal(wordObj.word, index, !wordObj.found && !wordObj.foundInBase) : null}">
                       {{ wordObj.word }}
                     </span>
                   </div>
@@ -120,7 +120,8 @@
                   </div>
                 </div>
                 <p class="control">
-                  <a class="button is-static">
+                  <input v-if="isNew" class="input" type="text" placeholder="..." v-model="baseWord">
+                  <a v-if="!isNew" class="button is-static">
                     {{ baseWord }}
                   </a>
                 </p>

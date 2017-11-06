@@ -10,7 +10,9 @@ function initFrontPage(data) {
       fromText: '',
       baseWord: null,
       wordToFix: null,
-      openCorrectionModal: function(word, index) {
+      isNew: false,
+      openCorrectionModal: function(word, index, isNew) {
+        this.isNew = isNew;
         this.baseWord = sanitize(this.fromText.split(' ')[index]);
         this.wordToFix = sanitize(word);
         document.getElementById('correction-modal').classList.add('is-active');
@@ -20,10 +22,21 @@ function initFrontPage(data) {
         if(position) {
           var cell = alphabet[Object.keys(data).indexOf(this.toLanguage)] + position.y;
           var range = 'Vocabulario!' + cell + ':' + cell;
-          writeData(range, sanitize(this.wordToFix).toLowerCase());
+          var wordToFix = sanitize(this.wordToFix).toLowerCase();
+          writeData(range, wordToFix);
+          data[this.toLanguage].push(wordToFix);
+          if(this.isNew) {
+            cell = alphabet[Object.keys(data).indexOf(this.fromLanguage)] + position.y;
+            range = 'Vocabulario!' + cell + ':' + cell;
+            var baseWord = sanitize(this.baseWord).toLowerCase();
+            writeData(range, baseWord);
+            data[this.fromLanguage].push(baseWord);
+          }
+          this.fromText += " ";
+          this.fromText = this.fromText.trim();
+          localStorage.setItem('forceRefresh', true);
           document.getElementById('correction-modal').classList.remove('is-active');
         }
-
       }
     },
     filters: {
@@ -116,7 +129,7 @@ function findPosition(fromLanguage, word) {
       return {y: io+2}; //2 = 1 for title, 1 because this start to count from 0
     }
   }
-  return null;
+  return {y: data[fromLanguage].length + 2};
 }
 
 function sanitize(word) {
