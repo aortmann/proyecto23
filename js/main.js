@@ -24,13 +24,14 @@ function initFrontPage(data) {
           var range = 'Vocabulario!' + cell + ':' + cell;
           var wordToFix = sanitize(this.wordToFix).toLowerCase();
           writeData(range, wordToFix);
-          data[this.toLanguage].push(wordToFix);
+          data[this.toLanguage][position.y-2] = wordToFix;
           if(this.isNew) {
             cell = alphabet[Object.keys(data).indexOf(this.fromLanguage)] + position.y;
             range = 'Vocabulario!' + cell + ':' + cell;
             var baseWord = sanitize(this.baseWord).toLowerCase();
             writeData(range, baseWord);
             data[this.fromLanguage].push(baseWord);
+            data[this.toLanguage].push(wordToFix);
           }
           this.fromText += " ";
           this.fromText = this.fromText.trim();

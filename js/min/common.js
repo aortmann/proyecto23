@@ -1,1 +1,0 @@
-String.prototype.capitalize=function(){return this.toLowerCase().replace(/(?:^|\s)\S/g,function(t){return t.toUpperCase()})},String.prototype.sentenceCase=function(){return this.toString().replace(/(^|\. *|\? *|\! *)([a-z])/g,function(t,e,r){return e+r.toUpperCase()})};
