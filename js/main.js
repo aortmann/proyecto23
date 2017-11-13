@@ -10,8 +10,33 @@ function initFrontPage(data) {
       fromText: '',
       baseWord: null,
       wordToFix: null,
-      isNew: false,
-      openCorrectionModal: function(word, index, isNew) {
+      isNew: false
+    },
+    filters: {
+      capitalize: function(s) {
+        return s.capitalize();
+      }
+    },
+    computed: {
+      filteredLanguages: function() {
+        var that = this;
+        var filtered = languages.filter(function(item) {
+          return item !== that.fromLanguage
+        });
+        this.toLanguage = filtered[0];
+        return filtered;
+        /*var toLanguageList = [];
+        for(var i in languages) {
+          if(languages[i].capitalize() != this.fromLanguage){
+              toLanguageList.push(languages[i]);
+          }
+        }
+        return toLanguageList;*/
+      }
+    },
+    methods: {
+      openCorrectionModal: function(word, index, isNew, toLanguage) {
+        this.toLanguage = toLanguage;
         this.isNew = isNew;
         this.baseWord = sanitize(this.fromText.split(' ')[index]);
         this.wordToFix = sanitize(word);
@@ -38,20 +63,13 @@ function initFrontPage(data) {
           localStorage.setItem('forceRefresh', true);
           document.getElementById('correction-modal').classList.remove('is-active');
         }
-      }
-    },
-    filters: {
-      capitalize: function(s) {
-        return s.capitalize();
-      }
-    },
-    computed: {
-      toText: function () {
+      },
+      toText: function (language) {
         if(this.fromText) {
           var splittedText = this.fromText.split(' ');
           var newText = [];
           for(var i in splittedText) {
-            newText.push(find(this.fromLanguage, this.toLanguage, splittedText[i]));
+            newText.push(find(this.fromLanguage, language, splittedText[i]));
           };
           var cased = newText.map(function(obj){return obj.word}).join('|').sentenceCase().split('|');
           for(var i in newText) {
@@ -61,20 +79,17 @@ function initFrontPage(data) {
         };
         return null;
       },
-      filteredLanguages: function() {
-        var that = this;
-        var filtered = languages.filter(function(item) {
-          return item !== that.fromLanguage
-        });
-        this.toLanguage = filtered[0];
-        return filtered;
-        /*var toLanguageList = [];
-        for(var i in languages) {
-          if(languages[i].capitalize() != this.fromLanguage){
-              toLanguageList.push(languages[i]);
-          }
-        }
-        return toLanguageList;*/
+      copy: function(elementId) {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+      },
+      randomColor() {
+        var r = function() {return Math.floor(256 * Math.random())};
+        return "rgba("+r()+", "+r()+", "+r()+",0.1  )";
       }
     }
   })

@@ -78,9 +78,15 @@
               </div>
             </div>
           </div>
-          <div class="tile is-parent">
-            <div class="tile is-child box">
-              <p>
+        </div>
+        <div v-for="i in Math.ceil(filteredLanguages.length / 2)" class="tile is-ancestor">
+        <div v-for="(language, index) in filteredLanguages.slice((i - 1) * 2, i * 2)" class="tile is-parent">
+            <div class="tile is-child box" :style="{backgroundColor: randomColor()}">
+              {{language}}
+              <span v-on:click="copy(language)">
+                  <i class="fa fa-clone cursor-pointer" style="float:right"></i>
+              </span>
+              <!--p>
                 <div class="field">
                   <div class="control">
                     <div class="select">
@@ -90,13 +96,13 @@
                     </div>
                   </div>
                 </div>
-              </p>
+              </p-->
               <div class="field">
                 <div class="control">
                   <div class="content">
-                    <span v-for="(wordObj, index) in toText"
+                    <span v-for="(wordObj, index) in toText(language)" v-bind:id="language"
                       v-bind:class="{ 'has-text-info cursor-pointer': !wordObj.found && wordObj.foundInBase, 'has-text-danger cursor-pointer': !wordObj.found && !wordObj.foundInBase }"
-                      v-on:click="{ !wordObj.found || !wordObj.foundInBase ? openCorrectionModal(wordObj.word, index, !wordObj.found && !wordObj.foundInBase) : null}">
+                      v-on:click="{ !wordObj.found || !wordObj.foundInBase ? openCorrectionModal(wordObj.word, index, !wordObj.found && !wordObj.foundInBase, language) : null}">
                       {{ wordObj.word }}
                     </span>
                   </div>
@@ -160,8 +166,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xregexp/3.2.0/xregexp-all.min.js"></script>
     <script type="text/javascript" src="js/autosize.js?v=1"></script>
     <script type="text/javascript" src="js/common.js?v=1"></script>
-    <!--script src="https://unpkg.com/vue"></script-->
-    <script src="https://vuejs.org/js/vue.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <!--script src="https://vuejs.org/js/vue.min.js"></script-->
     <script type="text/javascript" src="js/gauth.js?v=1"></script>
     <script type="text/javascript" src="js/main.js?v=1"></script>
     <script async defer src="https://apis.google.com/js/api.js"
