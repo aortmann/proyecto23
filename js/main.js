@@ -10,7 +10,8 @@ function initFrontPage(data) {
       fromText: '',
       baseWord: null,
       wordToFix: null,
-      isNew: false
+      isNew: false,
+      colorLanguages: []
     },
     filters: {
       capitalize: function(s) {
@@ -87,9 +88,14 @@ function initFrontPage(data) {
         document.execCommand("copy");
         document.body.removeChild(aux);
       },
-      randomColor() {
-        var r = function() {return Math.floor(256 * Math.random())};
-        return "rgba("+r()+", "+r()+", "+r()+",0.1  )";
+      randomColor(language) {
+        if(colorLanguages[language]) {
+          return colorLanguages[language];
+        } else {
+          var r = function() {return Math.floor(256 * Math.random())};
+          colorLanguages[language] = "rgba("+r()+", "+r()+", "+r()+",0.1  )";
+          return colorLanguages[language];
+        }
       }
     }
   })

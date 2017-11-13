@@ -81,7 +81,7 @@
         </div>
         <div v-for="i in Math.ceil(filteredLanguages.length / 2)" class="tile is-ancestor">
         <div v-for="(language, index) in filteredLanguages.slice((i - 1) * 2, i * 2)" class="tile is-parent">
-            <div class="tile is-child box" :style="{backgroundColor: randomColor()}">
+            <div class="tile is-child box" :style="{backgroundColor: randomColor(language)}">
               {{language}}
               <span v-on:click="copy(language)">
                   <i class="fa fa-clone cursor-pointer" style="float:right"></i>
