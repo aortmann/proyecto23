@@ -11,7 +11,8 @@ function initFrontPage(data) {
       baseWord: null,
       wordToFix: null,
       isNew: false,
-      colorLanguages: []
+      colorLanguages: [],
+      enabledLanguages: localStorage.getItem('enabledLanguages')? localStorage.getItem('enabledLanguages').split(',') : []
     },
     filters: {
       capitalize: function(s) {
@@ -24,7 +25,7 @@ function initFrontPage(data) {
         var filtered = languages.filter(function(item) {
           return item !== that.fromLanguage
         });
-        this.toLanguage = filtered[0];
+        that.toLanguage = filtered[0];
         return filtered;
         /*var toLanguageList = [];
         for(var i in languages) {
@@ -88,14 +89,19 @@ function initFrontPage(data) {
         document.execCommand("copy");
         document.body.removeChild(aux);
       },
-      randomColor(language) {
-        if(colorLanguages[language]) {
-          return colorLanguages[language];
+      randomColor: function(language) {
+        if(this.colorLanguages[language]) {
+          return this.colorLanguages[language];
         } else {
           var r = function() {return Math.floor(256 * Math.random())};
-          colorLanguages[language] = "rgba("+r()+", "+r()+", "+r()+",0.1  )";
-          return colorLanguages[language];
+          this.colorLanguages[language] = "rgba("+r()+", "+r()+", "+r()+",0.1  )";
+          return this.colorLanguages[language];
         }
+      }
+    },
+    watch: {
+      enabledLanguages: function(val) {
+        localStorage.setItem('enabledLanguages', val);
       }
     }
   })

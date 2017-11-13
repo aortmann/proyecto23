@@ -78,10 +78,22 @@
               </div>
             </div>
           </div>
+          <div class="tile is-parent">
+            <div class="tile is-child box">
+              <ul class="field" v-for="language in Object.keys(filteredLanguages)">
+                <li>
+                  <label class="checkbox">
+                    <input type="checkbox" :value="filteredLanguages[language]" v-model="enabledLanguages">
+                    {{filteredLanguages[language]}}
+                  </label>
+                </li>
+              </span>
+            </div>
+          </div>
         </div>
-        <div v-for="i in Math.ceil(filteredLanguages.length / 2)" class="tile is-ancestor">
-        <div v-for="(language, index) in filteredLanguages.slice((i - 1) * 2, i * 2)" class="tile is-parent">
-            <div class="tile is-child box" :style="{backgroundColor: randomColor(language)}">
+        <div v-for="i in Math.ceil(enabledLanguages.length / 2)" class="tile is-ancestor">
+        <div v-for="(language, index) in enabledLanguages.slice((i - 1) * 2, i * 2)" class="tile is-parent">
+            <div class="tile is-child box" :style="{backgroundColor: randomColor(language)}" v-if="enabledLanguages">
               {{language}}
               <span v-on:click="copy(language)">
                   <i class="fa fa-clone cursor-pointer" style="float:right"></i>
